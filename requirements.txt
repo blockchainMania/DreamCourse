@@ -6,3 +6,6 @@ tiktoken
 pandas
 matplotlib
 python-dotenv
+streamlit pyngrok --quiet
+langchain openai faiss-cpu tiktoken
+langchain-community

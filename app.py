@@ -47,50 +47,58 @@ custom_prompt = PromptTemplate.from_template("""
 
 
 #버튼 CSS 디자인 수정
-st.markdown("""
-    <style>
-        /* 가장 일반적인 라운드 파란색 버튼 스타일 */
-        div.stButton > button {
-            background-color: #e3f2fd;       /* 연한 하늘색 */
-            color: #0d47a1;                  /* 진한 텍스트 */
-            border: 1px solid #90caf9;       /* 파란 테두리 */
-            padding: 0.6rem 1.2rem;
-            font-size: 1rem;
-            font-weight: 500;
-            border-radius: 10px;             /* 라운딩 */
-            cursor: pointer;
-            transition: background-color 0.2s ease;
-        }
+def inject_css():
+    st.markdown("""
+        <style>
+            /* 가장 일반적인 라운드 파란색 버튼 스타일 */
+            div.stButton > button {
+                background-color: #e3f2fd;       /* 연한 하늘색 */
+                color: #0d47a1;                  /* 진한 텍스트 */
+                border: 1px solid #90caf9;       /* 파란 테두리 */
+                padding: 0.6rem 1.2rem;
+                font-size: 1rem;
+                font-weight: 500;
+                border-radius: 10px;             /* 라운딩 */
+                cursor: pointer;
+                transition: background-color 0.2s ease;
+            }
 
-        div.stButton > button {
-            height: 48px;
-            line-height: 1.2;
-            vertical-align: middle;
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-        }
+            .main .block-container {
+                max-width: 100% !important;
+                padding-left: 2rem;
+                padding-right: 2rem;
+            }
 
-        div.stButton > button:hover {
-            background-color: #bbdefb;       /* hover 시 배경 변경 */
-        }
+            div.stButton > button {
+                height: 48px;
+                line-height: 1.2;
+                vertical-align: middle;
+                display: inline-flex;
+                align-items: center;
+                justify-content: center;
+            }
 
-        /* 버튼 간격 정렬용 컨테이너 (선택사항) */
-        .button-container {
-            display: flex;
-            justify-content: flex-start;
-            gap: 1rem;
-            margin-top: 2rem;
-        }
-    </style>
-""", unsafe_allow_html=True)
+            div.stButton > button:hover {
+                background-color: #bbdefb;       /* hover 시 배경 변경 */
+            }
 
+            /* 버튼 간격 정렬용 컨테이너 (선택사항) */
+            .button-container {
+                display: flex;
+                justify-content: flex-start;
+                gap: 1rem;
+                margin-top: 2rem;
+            }
+        </style>
+    """, unsafe_allow_html=True)
+            
 if "page" not in st.session_state:
     st.session_state.page = "Home"
 
 # 1. 사용자 정보 입력 페이지
 if st.session_state.page == "Home":
     # 메인화면
+    inject_css()
     st.title("🎓 나의 진로를 향한 첫걸음")
     st.markdown("**DreamCourse**는 여러분의 진로, 학업 경로, 입결을 기반으로 맞춤형 커리큘럼을 설계해주는 서비스입니다.")
     # 사이드바
@@ -122,7 +130,7 @@ if st.session_state.page == "Home":
 
 #2. 직업 및 학과 선택 페이지
 elif st.session_state.page == "major_selection":
-
+    inject_css()
     st.title("💼 직업 및 관련 학과 추천")
     st.markdown(f"안녕하세요, **{st.session_state.name}**님 👋")
     st.markdown(f"입력한 희망 직업: **{st.session_state.job}**")
@@ -200,7 +208,7 @@ elif st.session_state.page == "major_selection":
 
 #3. 커리큘럼 및 입결정보 페이지
 elif st.session_state.page == "curriculum":
-
+    inject_css()
     #두번째 응답 설정
     custom_prompt = PromptTemplate.from_template("""
     당신은 고등학생 진로 컨설턴트입니다. 학생이 입력한 학과에 대해서 수시로 입학하기 위한 과목을 학년과 학기별로 정리해서 알려줘. 답변은 문맥에 참고해서 답해주고 문맥에 없는 내용은 고교학점제 내용을 검색해서 답변해줘, 답변형식은 테이블 형태로 대답해줘

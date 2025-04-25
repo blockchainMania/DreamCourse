@@ -1,11 +1,10 @@
 streamlit
 openai
 langchain
+langchain-community
 faiss-cpu
 tiktoken
 pandas
 matplotlib
 python-dotenv
-streamlit pyngrok --quiet
-langchain openai faiss-cpu tiktoken
-langchain-community
+pyngrok

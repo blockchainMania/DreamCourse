@@ -187,7 +187,7 @@ elif st.session_state.page == "major_selection":
 
     if st.session_state.page == "major_selection" and st.session_state.selected_major:
         st.markdown("---")
-        st.markdown(f"#### **{st.session_state.selected_major}** 학과를 선택하셨습니다")
+        st.markdown(f"#### **{st.session_state.selected_major}** 를 선택하셨습니다")
 
         st.markdown('<div class="button-container">', unsafe_allow_html=True)
 
@@ -229,7 +229,7 @@ elif st.session_state.page == "curriculum":
 
     # GPT로 커리큘럼 요청
     if "curriculum_table" not in st.session_state:
-        with st.spinner(f"{st.session_state.selected_major} 학과에 필요한 과목 정보를 불러오는 중입니다..."):
+        with st.spinner(f"{st.session_state.selected_major} 에 필요한 과목 정보를 불러오는 중입니다..."):
             prompt = f"{st.session_state.selected_major}에 입학하고 싶어!" 
 
             qa = RetrievalQA.from_chain_type(

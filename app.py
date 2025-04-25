@@ -8,8 +8,8 @@ import pandas as pd
 import matplotlib.pyplot as plt
 from openai import OpenAI
 
-master_api_key = "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"
 
+master_api_key = st.secrets["OPENAI_API_KEY"]
 
 #벡터 DB 불러오기
 embeddings = OpenAIEmbeddings(openai_api_key=master_api_key)

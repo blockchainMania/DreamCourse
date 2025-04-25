@@ -3,6 +3,7 @@ from langchain.embeddings import OpenAIEmbeddings
 from langchain.chains import RetrievalQA
 from langchain.chat_models import ChatOpenAI
 from langchain.prompts import PromptTemplate
+from langchain.document_loaders import CSVLoader
 import streamlit as st
 import pandas as pd
 import matplotlib.pyplot as plt
@@ -10,6 +11,18 @@ from openai import OpenAI
 
 
 master_api_key = st.secrets["OPENAI_API_KEY"]
+
+
+# 예: 커리큘럼.csv, 학과정보.csv, 입결.csv를 하나로 묶어서 처리
+loader = CSVLoader(file_path="직업 및 학과 과목.csv", encoding='utf-8')
+documents = loader.load()
+
+embeddings = OpenAIEmbeddings(openai_api_key=master_api_key)
+vectorstore = FAISS.from_documents(documents, embeddings)
+
+# 저장
+vectorstore.save_local("vector_db")
+
 
 #벡터 DB 불러오기
 embeddings = OpenAIEmbeddings(openai_api_key=master_api_key)

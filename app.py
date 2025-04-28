@@ -1,4 +1,3 @@
-
 from langchain.vectorstores import FAISS
 from langchain.embeddings import OpenAIEmbeddings
 from langchain.chains import RetrievalQA
@@ -9,6 +8,85 @@ import streamlit as st
 import pandas as pd
 import matplotlib.pyplot as plt
 from openai import OpenAI
+from langchain.docstore.document import Document
+import os
+
+# 1. 파일 불러오기
+df_major = pd.read_csv("학과정보_수정.csv", encoding='cp949')
+df_curriculum = pd.read_csv("커리큘럼_수정.csv", encoding='cp949')
+df_admission = pd.read_csv("입결정보_수정.csv", encoding='cp949')
+
+# 2. 문장화 작업
+
+# (1) 학과정보.csv 문장화
+texts_major = []
+for idx, row in df_major.iterrows():
+    text = f"{row['직업명']}은(는) {row['영역']} 분야에 속하는 직업이며, 취업을 위해 추천하는 학과는 {row['추천학과']}입니다."
+    texts_major.append(text)
+
+# (2) 커리큘럼 정보.csv 문장화 (학과별 6학기 통합)
+texts_curriculum = []
+for 학과 in df_curriculum["학과"].unique():
+    해당학과 = df_curriculum[df_curriculum["학과"] == 학과]
+    문장 = f"{학과}에 입학하기 위해 고등학교 재학 중 다음과 같은 과목을 이수해야 합니다. "
+    해당학과 = 해당학과.sort_values(by=["학년", "학기"])  # 1-1, 1-2, 2-1 순서 정렬
+
+    for _, row in 해당학과.iterrows():
+        학년 = int(row["학년"])
+        학기 = int(row["학기"])
+        공통 = row["공통과목"] if pd.notna(row["공통과목"]) else "없음"
+        일반 = row["일반선택과목"] if pd.notna(row["일반선택과목"]) else "없음"
+        진로 = row["진로선택과목"] if pd.notna(row["진로선택과목"]) else "없음"
+        융합 = row["융합과목"] if pd.notna(row["융합과목"]) else "없음"
+        문장 += f"{학년}학년 {학기}학기에는 공통과목: {공통}, 일반선택: {일반}, 진로선택: {진로}, 융합선택 : {융합} "
+
+    texts_curriculum.append(문장)
+
+# (3) 입결정보.csv 문장화
+# 1. 파일 불러오기
+df_admission = pd.read_csv("입결정보_수정.csv", encoding='cp949')
+
+# 2. 학과별로 전형 통합하기
+texts_admission = []
+
+for major, group in df_admission.groupby("학과"):
+    merged_info = []
+    for idx, row in group.iterrows():
+        text = (
+            f"{row['대학명']} {row['학과']}는 "
+            f"{row['전형명']}으로"
+            f"{row['인원']}명을 선발했고, 경쟁률은 {row['경쟁률']}입니다. "
+            f"50%컷은 {row['50% 컷']}, 70%컷은 {row['70% 컷']}입니다."
+        )
+        merged_info.append(text)
+
+    # 학과별 모든 전형을 하나로 묶음
+    full_text = f"{major}의 입결정보는 다음과 같습니다. " + " ".join(merged_info)
+    texts_admission.append(full_text)
+
+
+# 3. 전체 문장 합치기
+all_texts = texts_major + texts_curriculum + texts_admission
+
+# 4. Document 객체로 변환
+documents = [Document(page_content=text) for text in all_texts]
+
+# 5. Embedding 생성
+embeddings = OpenAIEmbeddings(openai_api_key=MASTER_API_KEY)
+
+# 6. 벡터 DB 구축
+vectorstore = FAISS.from_documents(documents, embeddings)
+
+# 7. 벡터 DB 저장
+save_path = "vector_db"
+if not os.path.exists(save_path):
+    os.makedirs(save_path)
+vectorstore.save_local(save_path)
+
+print("✅ 문장화 및 벡터 DB 구축 완료!")
+
+
+
 
 MASTER_API_KEY = st.secrets["OPENAI_API_KEY"]
 

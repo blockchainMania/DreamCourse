@@ -11,6 +11,10 @@ from openai import OpenAI
 from langchain.docstore.document import Document
 import os
 
+
+MASTER_API_KEY = st.secrets["OPENAI_API_KEY"]
+
+
 # 1. 파일 불러오기
 df_major = pd.read_csv("학과정보_수정.csv", encoding='cp949')
 df_curriculum = pd.read_csv("커리큘럼_수정.csv", encoding='cp949')
@@ -85,10 +89,6 @@ vectorstore.save_local(save_path)
 
 print("✅ 문장화 및 벡터 DB 구축 완료!")
 
-
-
-
-MASTER_API_KEY = st.secrets["OPENAI_API_KEY"]
 
 
 #벡터 DB 불러오기

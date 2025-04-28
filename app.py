@@ -12,7 +12,7 @@ from langchain.docstore.document import Document
 import os
 
 
-MASTER_API_KEY = st.secrets["OPENAI_API_KEY"]
+MASTER_API_KEY = st.secrets[OPENAI_API_KEY]
 
 
 # 1. 파일 불러오기

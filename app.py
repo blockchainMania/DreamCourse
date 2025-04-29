@@ -236,7 +236,7 @@ if st.session_state.page == "Home":
             #st.markdown("#### 📎 직업 심리 검사 결과 파일 (선택)")
             #file = st.file_uploader("PDF 또는 Word 파일 업로드 (최대 10MB)", type=["pdf", "docx"])
             st.markdown("---")
-            submitted = st.form_submit_button("📤 Submit")
+            submitted = st.form_submit_button("📤제출하기!")
 
             if submitted:
                 if name and school :

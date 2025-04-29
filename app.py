@@ -333,14 +333,23 @@ elif st.session_state.page == "curriculum":
     # GPT로 커리큘럼 요청
     if "curriculum_table" not in st.session_state:
         with st.spinner(f"{st.session_state.selected_major}에 필요한 과목 정보를 불러오는 중입니다..."):
-            prompt = f"{st.session_state.selected_major}에 입학하고 싶으니깐 내가 현재 고등학교 {st.session_state.grade}이니깐 지금부터 3학년 2학기까지 수강해야하는 과목을 알려줘!"
-
-            #질의에 대한 응답 요청
+            # '고2' → 2 숫자 추출
+            current_grade_number = int(st.session_state.grade.replace("고", ""))
+    
+            # 자연스러운 프롬프트 생성
+            prompt = f"""
+            나는 현재 고등학교 {current_grade_number}학년에 재학 중입니다.
+            {st.session_state.selected_major}에 입학하고 싶습니다.
+            고등학교 {current_grade_number}학년 1학기부터 3학년 2학기까지 이수해야 할 과목을 알려주세요.
+            """
+            
             qa = qa_from_prompt(custom_prompt)
             rag_response = qa.run(prompt)
-
-            # 응답 파싱
-            st.session_state.curriculum_table = parse_table_response(rag_response,["학기정보", "공통과목", "일반선택", "진로선택", "융합과목"] )
+    
+            st.session_state.curriculum_table = parse_table_response(
+                rag_response,
+                ["학기정보", "공통과목", "일반선택", "진로선택", "융합과목"]
+            )
 
     # 커리큘럼 테이블 출력
     if "curriculum_table" in st.session_state:

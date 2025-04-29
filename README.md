@@ -1,5 +1,5 @@
 
-[logo](https://github.com/user-attachments/assets/e154cc61-0064-4f48-af78-d7fc3115b0c4)
+
 # 🎓 DreamCourse!
 
 **DreamCourse**는 고등학생의 진로와 희망 학과, 입시 목표 대학 정보를 바탕으로  

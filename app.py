@@ -249,6 +249,7 @@ if st.session_state.page == "Home":
 
 #2. 직업 및 학과 선택 페이지
 elif st.session_state.page == "major_selection":
+    inject_css()
     #초기 응답 설정
     custom_prompt = get_prompt(st.session_state.page)
 

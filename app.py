@@ -15,86 +15,58 @@ import os
 MASTER_API_KEY = st.secrets["OPENAI_API_KEY"]
 
 
-# 1. 파일 불러오기
-df_major = pd.read_csv("학과정보_수정.csv", encoding='cp949')
-df_curriculum = pd.read_csv("커리큘럼_수정.csv", encoding='cp949')
-df_admission = pd.read_csv("입결정보_수정.csv", encoding='cp949')
+# ===============================
+# 최초 1회: 벡터DB 구축 함수
+# ===============================
+def build_vectorstore():
+    # 1. 파일 불러오기
+    df_major = pd.read_csv("학과정보_수정.csv", encoding='cp949')
+    df_curriculum = pd.read_csv("커리큘럼_수정.csv", encoding='cp949')
+    df_admission = pd.read_csv("입결정보_수정.csv", encoding='cp949')
 
-# 2. 문장화 작업
+    # 2. 문장화
+    texts_major = [
+        f"{row['직업명']}은(는) {row['영역']} 분야에 속하는 직업이며, 취업을 위해 추천하는 학과는 {row['추천학과']}입니다."
+        for _, row in df_major.iterrows()
+    ]
 
-# (1) 학과정보.csv 문장화
-texts_major = []
-for idx, row in df_major.iterrows():
-    text = f"{row['직업명']}은(는) {row['영역']} 분야에 속하는 직업이며, 취업을 위해 추천하는 학과는 {row['추천학과']}입니다."
-    texts_major.append(text)
+    texts_curriculum = []
 
-# (2) 커리큘럼 정보.csv 문장화 (학과별 6학기 통합)
-texts_curriculum = []
-for 학과 in df_curriculum["학과"].unique():
-    해당학과 = df_curriculum[df_curriculum["학과"] == 학과]
-    문장 = f"{학과}에 입학하기 위해 고등학교 재학 중 다음과 같은 과목을 이수해야 합니다. "
-    해당학과 = 해당학과.sort_values(by=["학년", "학기"])  # 1-1, 1-2, 2-1 순서 정렬
+    for 학과 in df_curriculum["학과"].unique():
+        해당학과 = df_curriculum[df_curriculum["학과"] == 학과]
+        문장 = f"{학과}에 입학하기 위해 고등학교 재학 중 다음과 같은 과목을 이수해야 합니다. "
+        해당학과 = 해당학과.sort_values(by=["학년", "학기"])
+        for _, row in 해당학과.iterrows():
+            문장 += f"{int(row['학년'])}학년 {int(row['학기'])}학기에는 공통과목: {row['공통과목'] or '없음'}, 일반선택: {row['일반선택과목'] or '없음'}, 진로선택: {row['진로선택과목'] or '없음'}, 융합과목: {row['융합과목'] or '없음'} "
+        texts_curriculum.append(문장)
 
-    for _, row in 해당학과.iterrows():
-        학년 = int(row["학년"])
-        학기 = int(row["학기"])
-        공통 = row["공통과목"] if pd.notna(row["공통과목"]) else "없음"
-        일반 = row["일반선택과목"] if pd.notna(row["일반선택과목"]) else "없음"
-        진로 = row["진로선택과목"] if pd.notna(row["진로선택과목"]) else "없음"
-        융합 = row["융합과목"] if pd.notna(row["융합과목"]) else "없음"
-        문장 += f"{학년}학년 {학기}학기에는 공통과목: {공통}, 일반선택: {일반}, 진로선택: {진로}, 융합선택 : {융합} "
+    texts_admission = []
 
-    texts_curriculum.append(문장)
-
-# (3) 입결정보.csv 문장화
-# 1. 파일 불러오기
-df_admission = pd.read_csv("입결정보_수정.csv", encoding='cp949')
-
-# 2. 학과별로 전형 통합하기
-texts_admission = []
-
-for major, group in df_admission.groupby("학과"):
-    merged_info = []
-    for idx, row in group.iterrows():
-        text = (
-            f"{row['대학명']} {row['학과']}는 "
-            f"{row['전형명']}으로"
-            f"{row['인원']}명을 선발했고, 경쟁률은 {row['경쟁률']}입니다. "
-            f"50%컷은 {row['50% 컷']}, 70%컷은 {row['70% 컷']}입니다."
+    for major, group in df_admission.groupby("학과"):
+        info = " ".join(
+            f"{row['대학명']} {row['학과']}는 {row['전형명']}으로 {row['인원']}명을 선발했고, 경쟁률은 {row['경쟁률']}입니다. 50%컷은 {row['50% 컷']}, 70%컷은 {row['70% 컷']}입니다."
+            for _, row in group.iterrows()
         )
-        merged_info.append(text)
+        texts_admission.append(f"{major}의 입결정보는 다음과 같습니다. {info}")
 
-    # 학과별 모든 전형을 하나로 묶음
-    full_text = f"{major}의 입결정보는 다음과 같습니다. " + " ".join(merged_info)
-    texts_admission.append(full_text)
+    # 3. 전체 문장 합치기
+    all_texts = texts_major + texts_curriculum + texts_admission
+    documents = [Document(page_content=text) for text in all_texts]
 
+    # 4. 벡터DB 구축
+    embeddings = OpenAIEmbeddings(openai_api_key=MASTER_API_KEY)
+    vectorstore = FAISS.from_documents(documents, embeddings)
 
-# 3. 전체 문장 합치기
-all_texts = texts_major + texts_curriculum + texts_admission
+    return vectorstore
 
-# 4. Document 객체로 변환
-documents = [Document(page_content=text) for text in all_texts]
+# ===============================
+# Streamlit 시작 시 벡터스토어 구축
+# ===============================
+if "vectorstore" not in st.session_state:
+    with st.spinner("🔄 DreamCourse AI 벡터DB를 구축하는 중입니다... (최초 1회만)"):
+        st.session_state.vectorstore = build_vectorstore()
 
-# 5. Embedding 생성
-embeddings = OpenAIEmbeddings(openai_api_key=MASTER_API_KEY)
-
-# 6. 벡터 DB 구축
-vectorstore = FAISS.from_documents(documents, embeddings)
-
-# 7. 벡터 DB 저장
-save_path = "vector_db"
-if not os.path.exists(save_path):
-    os.makedirs(save_path)
-vectorstore.save_local(save_path)
-
-print("✅ 문장화 및 벡터 DB 구축 완료!")
-
-
-
-#벡터 DB 불러오기
-embeddings = OpenAIEmbeddings(openai_api_key=MASTER_API_KEY)
-vectorstore = FAISS.load_local("vector_db", embeddings, allow_dangerous_deserialization=True)
-
+vectorstore = st.session_state.vectorstore
 #CSS 디자인 수정
 def inject_css():
     st.markdown("""

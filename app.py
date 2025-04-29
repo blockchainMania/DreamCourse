@@ -76,49 +76,55 @@ vectorstore = st.session_state.vectorstore
 #CSS 디자인 수정
 def inject_css():
     st.markdown("""
-        <style>
-            body {
-                background-color: #FAFAFA;
-            }
+      <style>
+        /* 기본 폰트 설정 */
+        html, body, [class*="css"]  {
+            font-family: 'Pretendard', 'Noto Sans KR', sans-serif;
+        }
 
-            .main .block-container {
-                background-color: #ffffff;
-                padding-left: 2rem;
-                padding-right: 2rem;
-                border-radius: 12px;
-                box-shadow: 0 4px 10px rgba(0,0,0,0.05);
-            }
+        /* 메인 컨테이너 */
+        section.main > div.block-container {
+            background-color: #ffffff;
+            padding: 2rem;
+            border-radius: 12px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+        }
 
-            /* 버튼 스타일 */
-            div.stButton > button {
-                background-color: #DCEEF9;
-                color: #003366;
-                border: none;
-                padding: 0.6rem 1.2rem;
-                border-radius: 8px;
-                font-weight: 600;
-                transition: all 0.2s ease;
-            }
+        /* 버튼 스타일 */
+        div.stButton > button {
+            background-color: #4B8BBE;
+            color: #ffffff;
+            border: none;
+            padding: 0.6rem 1.2rem;
+            font-size: 16px;
+            font-weight: bold;
+            border-radius: 8px;
+            transition: all 0.3s;
+        }
 
-            div.stButton > button:hover {
-                background-color: #B3E5FC;
-                color: #000000;
-            }
+        div.stButton > button:hover {
+            background-color: #3773A8;
+            color: #ffffff;
+        }
 
-            /* 텍스트 색상 */
-            h1, h2, h3, h4, h5, h6 {
-                color: #004C99;
-            }
+        /* 입력창 스타일 */
+        div.stTextInput > div > input {
+            background-color: #F0F4FF;
+            border: 1px solid #90caf9;
+            border-radius: 8px;
+            padding: 0.5rem;
+        }
 
-            .sidebar .sidebar-content {
-                background-color: #F0F4FF;
-            }
+        /* 사이드바 영역 */
+        [data-testid="stSidebar"] {
+            background-color: #F0F4FF;
+        }
 
-            /* 표 제목 */
-            .dataframe th {
-                background-color: #e3f2fd !important;
-            }
-        </style>
+        /* 타이틀 텍스트 */
+        h1, h2, h3 {
+            color: #004C99;
+        }
+    </style>
     """, unsafe_allow_html=True)
 
 # =======================

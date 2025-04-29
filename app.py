@@ -243,6 +243,7 @@ if st.session_state.page == "Home":
                     st.session_state.name = name
                     st.session_state.school = school
                     st.session_state.job = job
+                    st.session_state.grade = grade
                     st.session_state.page = "major_selection"
                     st.rerun() # 페이지 새로고침해서 다음 단계로 이동
                 else :
@@ -273,7 +274,7 @@ elif st.session_state.page == "major_selection":
     # 테이블 출력
     if "job_table" in st.session_state:
         st.markdown("#### 직업 및 추천학과 보기")
-
+        st.markdown("-----")
         if "selected_major" not in st.session_state:
             st.session_state.selected_major = None
 
@@ -332,7 +333,7 @@ elif st.session_state.page == "curriculum":
     # GPT로 커리큘럼 요청
     if "curriculum_table" not in st.session_state:
         with st.spinner(f"{st.session_state.selected_major}에 필요한 과목 정보를 불러오는 중입니다..."):
-            prompt = f"{st.session_state.selected_major}에 입학하고 싶으니깐 내가 고등학교 1학년 1학기부터 3학년 2학기까지 수강해야하는 과목을 알려줘!"
+            prompt = f"{st.session_state.selected_major}에 입학하고 싶으니깐 내가 현재 고등학교 {st.session_state.grade}이니깐 지금부터 3학년 2학기까지 수강해야하는 과목을 알려줘!"
 
             #질의에 대한 응답 요청
             qa = qa_from_prompt(custom_prompt)

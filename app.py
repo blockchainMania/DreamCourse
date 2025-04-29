@@ -181,7 +181,7 @@ def get_prompt(prompt_type):
 # =======================
 def qa_from_prompt(prompt_text):
     return RetrievalQA.from_chain_type(
-        llm=ChatOpenAI(temperature=0.1, openai_api_key=MASTER_API_KEY),
+        llm=ChatOpenAI(temperature=0.0, openai_api_key=MASTER_API_KEY),
         chain_type="stuff",
         retriever=vectorstore.as_retriever(),
         chain_type_kwargs={"prompt": prompt_text}

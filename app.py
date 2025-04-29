@@ -13,6 +13,7 @@ import os
 
 
 MASTER_API_KEY = st.secrets["OPENAI_API_KEY"]
+st.set_page_config(layout="wide")
 
 
 # ===============================
@@ -202,9 +203,6 @@ def parse_table_response(response, columns):
 
 #-------------------------------------------------------------------------------------------------
 # Streamlit 생성 코드
-
-
-st.set_page_config(layout="wide")
 
 if "page" not in st.session_state:
     st.session_state.page = "Home"

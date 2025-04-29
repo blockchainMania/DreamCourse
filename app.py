@@ -45,7 +45,7 @@ def build_vectorstore():
             융합 = row["융합과목"] if pd.notna(row["융합과목"]) else "없음"
             문장 += f"{학기정보}: 공통과목 {공통}, 일반선택 {일반}, 진로선택 {진로}, 융합선택 {융합}. "
 
-    texts_curriculum.append(문장)
+        texts_curriculum.append(문장)
 
     texts_admission = []
 

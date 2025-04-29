@@ -233,7 +233,7 @@ if st.session_state.page == "Home":
             job = st.selectbox("희망하는 직업",["소프트웨어 개발자","사회복지사", "스포츠해설가"])
             grade = st.selectbox("학년", ["고1", "고2", "고3"])
             school = st.text_input("고등학교", value="경기고등학교", disabled=True)
-            st.markdown("#### 📎 직업 심리 검사 결과 파일 (선택)")
+            #st.markdown("#### 📎 직업 심리 검사 결과 파일 (선택)")
             #file = st.file_uploader("PDF 또는 Word 파일 업로드 (최대 10MB)", type=["pdf", "docx"])
             st.markdown("---")
             submitted = st.form_submit_button("📤 Submit")

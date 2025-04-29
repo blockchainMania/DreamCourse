@@ -213,7 +213,7 @@ if st.session_state.page == "Home":
     st.markdown("**DreamCourse**는 여러분의 진로, 학업 경로, 입결을 기반으로 맞춤형 커리큘럼을 설계해주는 서비스입니다.")
     # 사이드바
     with st.sidebar:
-        st.sidebar.image("logo.png", use_column_width=True)
+        st.sidebar.image("logo.png")
         st.title("DreamCourse")
         st.markdown("Design your path, achieve your dream.")
         st.divider()

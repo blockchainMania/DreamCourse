@@ -43,6 +43,7 @@
 --- 
 
 ## 📂 프로젝트 구조
+```
 /DreamCourse
  ├── app.py                  # Streamlit 메인 앱
  ├── data/                   # CSV 원천 데이터 폴더
@@ -51,3 +52,4 @@
  │    ├── 입결정보_수정.csv      # 학과별 서울대/연대/고대 입결 데이터
  ├── requirements.txt        # 필요한 라이브러리 명시 파일
  ├── README.md                # 프로젝트 소개 문서
+```

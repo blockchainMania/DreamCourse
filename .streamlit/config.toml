@@ -1,5 +1,0 @@
-primaryColor = "#4B8BBE"           # 버튼 색상 (파랑계열)
-backgroundColor = "#FAFAFA"        # 전체 배경색
-secondaryBackgroundColor = "#F0F4FF" # 사이드바 등 보조 배경색
-textColor = "#262730"              # 기본 텍스트 색상
-font = "sans serif"

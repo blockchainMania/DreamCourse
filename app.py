@@ -255,7 +255,7 @@ elif st.session_state.page == "major_selection":
     custom_prompt = get_prompt(st.session_state.page)
 
     st.title("💼 직업 및 관련 학과 추천")
-    st.markdown(f"안녕하세요, **{st.session_state.name}**님 👋")
+    st.markdown(f"안녕하세요, 경기고등학교 **{st.session_state.name}** 학생 👋")
     st.markdown(f"입력한 희망 직업: **{st.session_state.job}**")
 
     if "job_table" not in st.session_state:

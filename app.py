@@ -77,44 +77,46 @@ vectorstore = st.session_state.vectorstore
 def inject_css():
     st.markdown("""
         <style>
-            /* 가장 일반적인 라운드 파란색 버튼 스타일 */
-            div.stButton > button {
-                background-color: #e3f2fd;       /* 연한 하늘색 */
-                color: #0d47a1;                  /* 진한 텍스트 */
-                border: 1px solid #90caf9;       /* 파란 테두리 */
-                padding: 0.6rem 1.2rem;
-                font-size: 1rem;
-                font-weight: 500;
-                border-radius: 10px;             /* 라운딩 */
-                cursor: pointer;
-                transition: background-color 0.2s ease;
+            body {
+                background-color: #FAFAFA;
             }
 
             .main .block-container {
-                max-width: 100% !important;
+                background-color: #ffffff;
                 padding-left: 2rem;
                 padding-right: 2rem;
+                border-radius: 12px;
+                box-shadow: 0 4px 10px rgba(0,0,0,0.05);
             }
 
+            /* 버튼 스타일 */
             div.stButton > button {
-                height: 48px;
-                line-height: 1.2;
-                vertical-align: middle;
-                display: inline-flex;
-                align-items: center;
-                justify-content: center;
+                background-color: #DCEEF9;
+                color: #003366;
+                border: none;
+                padding: 0.6rem 1.2rem;
+                border-radius: 8px;
+                font-weight: 600;
+                transition: all 0.2s ease;
             }
 
             div.stButton > button:hover {
-                background-color: #bbdefb;       /* hover 시 배경 변경 */
+                background-color: #B3E5FC;
+                color: #000000;
             }
 
-            /* 버튼 간격 정렬용 컨테이너 (선택사항) */
-            .button-container {
-                display: flex;
-                justify-content: flex-start;
-                gap: 1rem;
-                margin-top: 2rem;
+            /* 텍스트 색상 */
+            h1, h2, h3, h4, h5, h6 {
+                color: #004C99;
+            }
+
+            .sidebar .sidebar-content {
+                background-color: #F0F4FF;
+            }
+
+            /* 표 제목 */
+            .dataframe th {
+                background-color: #e3f2fd !important;
             }
         </style>
     """, unsafe_allow_html=True)

@@ -234,7 +234,7 @@ if st.session_state.page == "Home":
             grade = st.selectbox("학년", ["고1", "고2", "고3"])
             school = st.text_input("고등학교", value="경기고등학교", disabled=True)
             st.markdown("#### 📎 직업 심리 검사 결과 파일 (선택)")
-            file = st.file_uploader("PDF 또는 Word 파일 업로드 (최대 10MB)", type=["pdf", "docx"])
+            #file = st.file_uploader("PDF 또는 Word 파일 업로드 (최대 10MB)", type=["pdf", "docx"])
             st.markdown("---")
             submitted = st.form_submit_button("📤 Submit")
 
@@ -251,7 +251,6 @@ if st.session_state.page == "Home":
 
 #2. 직업 및 학과 선택 페이지
 elif st.session_state.page == "major_selection":
-    inject_css()
     #초기 응답 설정
     custom_prompt = get_prompt(st.session_state.page)
 

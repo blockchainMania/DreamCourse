@@ -206,6 +206,12 @@ if st.session_state.page == "Home":
     # 메인화면
     st.title("🎓 나의 진로를 향한 첫걸음")
     st.markdown("**DreamCourse**는 여러분의 희망 직업, 전공 등을 기반으로 맞춤형 커리큘럼을 설계해주는 서비스입니다.")
+    st.markdown("""
+    ---
+    🔍 아직 희망 직업이 확실하지 않다면?
+    👉 [**진로심리검사 바로가기**](https://www.career.go.kr/cloud/w/inspect/itrstk/intro)  
+    <span style='font-size:13px; color:gray'>*한국고용정보원이 제공하는 공신력 있는 진단으로, 나의 적성과 흥미를 알아볼 수 있어요.</span>
+    """, unsafe_allow_html=True)
     # 사이드바
     with st.sidebar:
         st.sidebar.image("logo.png")

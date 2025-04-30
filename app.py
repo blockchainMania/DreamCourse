@@ -206,7 +206,7 @@ if st.session_state.page == "Home":
     # 사이드바
     with st.sidebar:
         st.sidebar.image("logo.png")
-        st.markdown("Design your path, achieve your dream.")
+        st.markdown("**Design your path, achieve your dream.**")
         st.divider()
 
         # 사용자 정보 입력 폼

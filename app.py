@@ -1,4 +1,4 @@
-import os
+fimport os
 import streamlit as st
 import pandas as pd
 import matplotlib.pyplot as plt
@@ -76,53 +76,35 @@ vectorstore = st.session_state.vectorstore
 #CSS 디자인 수정
 def inject_css():
     st.markdown("""
-      <style>
-        /* 기본 폰트 설정 */
-        html, body, [class*="css"]  {
-            font-family: 'Pretendard', 'Noto Sans KR', sans-serif;
+    <style>
+        /* 전체 버튼 스타일 수정 */
+        div.stButton > button {
+            background-color: #4CAF50;         /* 초록색 배경 */
+            color: white;                      /* 흰색 글자 */
+            border: none;
+            padding: 0.6rem 1.2rem;
+            font-size: 16px;
+            font-weight: 600;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
         }
 
-        /* 메인 컨테이너 */
+        div.stButton > button:hover {
+            background-color: #45A049;         /* hover 시 좀 더 진한 초록 */
+            color: white;
+        }
+
+        /* 선택사항: 제목 색상 및 블록 레이아웃 정리 */
+        h1, h2, h3, h4 {
+            color: #2E7D32;
+        }
+
         section.main > div.block-container {
             background-color: #ffffff;
             padding: 2rem;
             border-radius: 12px;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.05);
-        }
-
-        /* 버튼 스타일 */
-        div.stButton > button {
-            background-color: #4B8BBE;
-            color: #ffffff;
-            border: none;
-            padding: 0.6rem 1.2rem;
-            font-size: 16px;
-            font-weight: bold;
-            border-radius: 8px;
-            transition: all 0.3s;
-        }
-
-        div.stButton > button:hover {
-            background-color: #3773A8;
-            color: #ffffff;
-        }
-
-        /* 입력창 스타일 */
-        div.stTextInput > div > input {
-            background-color: #F0F4FF;
-            border: 1px solid #90caf9;
-            border-radius: 8px;
-            padding: 0.5rem;
-        }
-
-        /* 사이드바 영역 */
-        [data-testid="stSidebar"] {
-            background-color: #F0F4FF;
-        }
-
-        /* 타이틀 텍스트 */
-        h1, h2, h3 {
-            color: #004C99;
+            box-shadow: 0px 4px 12px rgba(0,0,0,0.05);
         }
     </style>
     """, unsafe_allow_html=True)
@@ -252,6 +234,7 @@ if st.session_state.page == "Home":
 #2. 직업 및 학과 선택 페이지
 elif st.session_state.page == "major_selection":
     #초기 응답 설정
+    inject_css()
     custom_prompt = get_prompt(st.session_state.page)
 
     st.title("💼 직업 및 관련 학과 추천")
@@ -322,8 +305,8 @@ elif st.session_state.page == "major_selection":
 
 #3. 커리큘럼 및 입결정보 페이지
 elif st.session_state.page == "curriculum":
-    inject_css()
     #두번째 응답 설정
+    inject_css()
     custom_prompt = get_prompt(st.session_state.page)
 
     st.title("📘 맞춤형 커리큘럼 및 입결 정보")

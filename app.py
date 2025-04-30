@@ -33,16 +33,17 @@ def build_vectorstore():
     texts_curriculum = []
     for 학과 in df_curriculum["학과"].unique():
         해당학과 = df_curriculum[df_curriculum["학과"] == 학과]
-        문장 = f"{학과}에 입학하기 위해 고등학교 재학 중 다음과 같은 과목을 이수해야 합니다. "
+        문장 = f"{학과}에 입학하기 위해 고등학교 재학 중 다음과 같은 과목을 이수해야 합니다."
         해당학과 = 해당학과.sort_values(by=["학년", "학기"])
-    
+
         for _, row in 해당학과.iterrows():
             학기정보 = f"{int(row['학년'])}학년 {int(row['학기'])}학기"
             공통 = row["공통과목"] if pd.notna(row["공통과목"]) else "없음"
+            기본 = row["기본선택과목"] if pd.notna(row["기본선택과목"]) else "없음"
             일반 = row["일반선택과목"] if pd.notna(row["일반선택과목"]) else "없음"
             진로 = row["진로선택과목"] if pd.notna(row["진로선택과목"]) else "없음"
             융합 = row["융합과목"] if pd.notna(row["융합과목"]) else "없음"
-            문장 += f"{학기정보}: 공통과목 {공통}, 일반선택 {일반}, 진로선택 {진로}, 융합선택 {융합}. "
+            문장 += f"{학기정보}: 공통과목 {공통}, 기본선택{기본}, 일반선택 {일반}, 진로선택 {진로}, 융합선택 {융합}. "
 
         texts_curriculum.append(문장)
 
@@ -137,8 +138,8 @@ def get_prompt(prompt_type):
     당신은 고등학생 진로 컨설턴트입니다. 학생이 입력한 학과와 비슷한 학과에 대해서 이수 과목을 고등학교 1학년과 1학기부터 3학년 2학기까지 순서대로 정리해서 알려줘.
     답변은 문맥 내용 기반으로 답해주고 없으면 NULL 값으로 남겨놔줘 답변형식은 테이블 형태로 대답해줘
 
-            | 학기정보 | 공통과목 | 일반선택 | 진로선택 | 융합과목 |
-            |---------|------- --|---------|---------|---------|
+            | 학기정보 | 공통과목 | 기본선택 | 일반선택 | 진로선택 | 융합과목 |
+            |---------|------- --|---------|---------|---------|---------|
 
     문맥:
     {context}
@@ -307,12 +308,28 @@ elif st.session_state.page == "major_selection":
 
 #3. 커리큘럼 및 입결정보 페이지
 elif st.session_state.page == "curriculum":
+ 
     #두번째 응답 설정
     inject_css()
     custom_prompt = get_prompt(st.session_state.page)
 
+
+    # 선택한 학과에 해당하는 코멘트 추출
+    @st.cache_data
+    def load_comment_csv():
+        return pd.read_csv("커리큘럼_수정.csv", encoding="utf-8")
+
+
+    df_comment = load_comment_csv()
+
+    comment_row = df_comment[(df_comment["학과"] == selected_major) & (df_comment["코멘트"].notna())]
+    comment_text = comment_row.iloc[0]["코멘트"] if not comment_row.empty else None
+
     st.title("📘 맞춤형 커리큘럼 및 입결 정보")
     st.markdown(f"선택한 학과: **{st.session_state.selected_major}**")
+
+    if comment_text:
+        st.info(f"💬 {comment_text}")
 
     # GPT로 커리큘럼 요청
     if "curriculum_table" not in st.session_state:
@@ -325,6 +342,7 @@ elif st.session_state.page == "curriculum":
             나는 현재 고등학교 {current_grade_number}학년에 재학 중입니다.
             {st.session_state.selected_major}에 입학하고 싶습니다.
             고등학교 {current_grade_number}학년 1학기부터 3학년 2학기까지 이수해야 할 과목을 알려주세요.
+            또한, {st.session_state.selected_major}에 대해 추천되는 학업 방향이나 설명(코멘트)이 포함되어 있다면 함께 알려주세요.
             """
             
             qa = qa_from_prompt(custom_prompt)
@@ -332,7 +350,7 @@ elif st.session_state.page == "curriculum":
     
             st.session_state.curriculum_table = parse_table_response(
                 rag_response,
-                ["학기정보", "공통과목", "일반선택", "진로선택", "융합과목"]
+                ["학기정보", "공통과목","기본선택", "일반선택", "진로선택", "융합과목"]
             )
 
     # 커리큘럼 테이블 출력

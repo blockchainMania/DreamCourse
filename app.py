@@ -322,7 +322,7 @@ elif st.session_state.page == "curriculum":
 
     df_comment = load_comment_csv()
 
-    comment_row = df_comment[(df_comment["학과"] == selected_major) & (df_comment["코멘트"].notna())]
+    comment_row = df_comment[(df_comment["학과"] == st.session_state.selected_major) & (df_comment["코멘트"].notna())]
     comment_text = comment_row.iloc[0]["코멘트"] if not comment_row.empty else None
 
     st.title("📘 맞춤형 커리큘럼 및 입결 정보")

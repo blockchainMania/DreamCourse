@@ -21,7 +21,7 @@ st.set_page_config(layout="wide")
 def build_vectorstore():
     # 1. 파일 불러오기
     df_major = pd.read_csv("학과정보_수정.csv", encoding='cp949')
-    df_curriculum = pd.read_csv("커리큘럼_수정.csv", encoding='cp949')
+    df_curriculum = pd.read_csv("커리큘럼_수정.csv", encoding='utf-8')
     df_admission = pd.read_csv("입결정보_수정.csv", encoding='cp949')
 
     # 2. 문장화

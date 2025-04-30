@@ -264,7 +264,7 @@ elif st.session_state.page == "major_selection":
 
     # 테이블 출력
     if "job_table" in st.session_state:
-        st.markdown("#### 직업 및 추천학과 보기")
+        st.markdown("#### 🎒직업 및 추천학과 보기")
         st.markdown("-----")
         if "selected_major" not in st.session_state:
             st.session_state.selected_major = None

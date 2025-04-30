@@ -43,7 +43,7 @@ def build_vectorstore():
             일반 = row["일반선택과목"] if pd.notna(row["일반선택과목"]) else "없음"
             진로 = row["진로선택과목"] if pd.notna(row["진로선택과목"]) else "없음"
             융합 = row["융합과목"] if pd.notna(row["융합과목"]) else "없음"
-            문장 += f"{학기정보}: 공통과목 {공통}, 기본선택{기본}, 일반선택 {일반}, 진로선택 {진로}, 융합선택 {융합}. "
+            문장 += f"{학기정보}: 공통과목 {공통}, 기본선택 {기본}, 일반선택 {일반}, 진로선택 {진로}, 융합선택 {융합}. "
 
         texts_curriculum.append(문장)
 

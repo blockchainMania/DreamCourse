@@ -343,7 +343,7 @@ elif st.session_state.page == "curriculum":
     
             st.session_state.curriculum_table = parse_table_response(
                 rag_response,
-                ["학기정보", "공통과목","기본선택", "일반선택", "진로선택", "융합과목"]
+                ["학기정보", "공통과목","기본선택과목", "일반선택과목", "진로선택과목", "융합과목"]
             )
 
     # 커리큘럼 테이블 출력

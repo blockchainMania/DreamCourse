@@ -77,11 +77,11 @@ vectorstore = st.session_state.vectorstore
 def inject_css():
     st.markdown("""
     <style>
-        /* 전체 버튼 스타일 수정 */
-        div.stButton > button {
-            background-color: #4CAF50;         /* 초록색 배경 */
-            color: white;                      /* 흰색 글자 */
-            border: none;
+        /* 버튼 전체 스타일 오버라이드 */
+        button[kind="primary"] {
+            background-color: #4CAF50 !important;   /* 초록색 */
+            color: #FFFFFF !important;              /* 흰색 텍스트 */
+            border: none !important;
             padding: 0.6rem 1.2rem;
             font-size: 16px;
             font-weight: 600;
@@ -90,21 +90,22 @@ def inject_css():
             transition: background-color 0.3s ease;
         }
 
-        div.stButton > button:hover {
-            background-color: #45A049;         /* hover 시 좀 더 진한 초록 */
-            color: white;
+        button[kind="primary"]:hover {
+            background-color: #45A049 !important;   /* hover 초록 */
+            color: #FFFFFF !important;
         }
 
-        /* 선택사항: 제목 색상 및 블록 레이아웃 정리 */
+        /* 제목 색상 */
         h1, h2, h3, h4 {
             color: #2E7D32;
         }
 
+        /* 메인 컨테이너 정리 */
         section.main > div.block-container {
             background-color: #ffffff;
             padding: 2rem;
             border-radius: 12px;
-            box-shadow: 0px 4px 12px rgba(0,0,0,0.05);
+            box-shadow: 0 4px 10px rgba(0,0,0,0.05);
         }
     </style>
     """, unsafe_allow_html=True)
@@ -205,7 +206,6 @@ if st.session_state.page == "Home":
     # 사이드바
     with st.sidebar:
         st.sidebar.image("logo.png")
-        st.title("DreamCourse")
         st.markdown("Design your path, achieve your dream.")
         st.divider()
 

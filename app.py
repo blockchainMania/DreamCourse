@@ -345,6 +345,18 @@ elif st.session_state.page == "curriculum":
                 rag_response,
                 ["학기정보", "공통과목","기본선택", "일반선택", "진로선택", "융합과목"]
             )
+            st.markdown(
+                """
+                <small>
+                📘 과목 설명<br>
+                - <b>공통, 기본선택</b>: 모든 학생이 반드시 이수해야 하는 교과목<br>
+                - <b>일반선택</b>: 흥미, 적성에 따라 자유롭게 선택할 수 있는 교과목<br>
+                - <b>진로선택</b>: 자신의 진로와 관련된 교과목을 선택하여 심화 학습을 할 수 있도록 하는 교과목<br>
+                - <b>융합</b>: 교과 간 경계를 허물고 다양한 분야를 결합하여 실생활과 연계된 학습을 지향하는 교과목
+                </small>
+                """,
+                unsafe_allow_html=True
+            )
 
     # 커리큘럼 테이블 출력
     if "curriculum_table" in st.session_state:

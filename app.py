@@ -210,7 +210,7 @@ if st.session_state.page == "Home":
     """
     <a href="https://www.career.go.kr/cloud/w/inspect/itrstk/intro" target="_blank">
         <img src="https://raw.githubusercontent.com/blockchainMania/DreamCourse/main/test.jpg" 
-             alt="진로심리검사 안내 이미지" style="width:100%; border-radius:10px;">
+             alt="진로심리검사 안내 이미지" style="width:70%; border-radius:10px;">
     </a>
     """,
     unsafe_allow_html=True

@@ -90,6 +90,10 @@ def inject_css():
             transition: background-color 0.3s ease;
         }
 
+        body {
+            font-family : 'Nanum Gothic', sans-serif;
+        }
+
         button[kind="primary"]:hover {
             background-color: #45A049 !important;   /* hover 초록 */
             color: #FFFFFF !important;

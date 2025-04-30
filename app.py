@@ -327,9 +327,7 @@ elif st.session_state.page == "curriculum":
 
     st.title("📘 맞춤형 커리큘럼 및 입결 정보")
     st.markdown(f"선택한 학과: **{st.session_state.selected_major}**")
-
-    if comment_text:
-        st.info(f"💬 {comment_text}")
+    st.info(f"💬 {comment_text}")
 
     # GPT로 커리큘럼 요청
     if "curriculum_table" not in st.session_state:

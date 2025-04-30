@@ -394,7 +394,7 @@ elif st.session_state.page == "curriculum":
 
 
     st.markdown('<div class="button-container">', unsafe_allow_html=True)
-    if st.button("⬅️ 직업 선택으로 돌아가기", key="back_to_major"):
+    if st.button("⬅️ 직업/학과 선택으로 돌아가기", key="back_to_major"):
         st.session_state.pop("curriculum_table", None)
         st.session_state.pop("admission_table", None)
         st.session_state.page = "major_selection"

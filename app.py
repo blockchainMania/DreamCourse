@@ -77,34 +77,32 @@ vectorstore = st.session_state.vectorstore
 def inject_css():
     st.markdown("""
     <style>
-        /* 버튼 전체 스타일 오버라이드 */
-        button[kind="primary"] {
-            background-color: #4CAF50 !important;   /* 초록색 */
-            color: #FFFFFF !important;              /* 흰색 텍스트 */
-            border: none !important;
-            padding: 0.6rem 1.2rem;
-            font-size: 16px;
+        /* 버튼 스타일 정확히 타겟팅 */
+        div[data-testid="baseButton-secondary"] button {
+            background-color: #4CAF50 !important;
+            color: white !important;
             font-weight: 600;
+            font-size: 16px;
+            border: none;
             border-radius: 8px;
-            cursor: pointer;
-            transition: background-color 0.3s ease;
+            padding: 0.6rem 1.2rem;
+            transition: 0.3s ease;
         }
 
-        body {
-            font-family : 'Nanum Gothic', sans-serif;
+        div[data-testid="baseButton-secondary"] button:hover {
+            background-color: #45A049 !important;
+            color: white !important;
         }
 
-        button[kind="primary"]:hover {
-            background-color: #45A049 !important;   /* hover 초록 */
-            color: #FFFFFF !important;
-        }
-
-        /* 제목 색상 */
+        /* 기본 텍스트 및 제목 스타일 */
         h1, h2, h3, h4 {
             color: #2E7D32;
         }
 
-        /* 메인 컨테이너 정리 */
+        body {
+            font-family: 'Nanum Gothic', sans-serif;
+        }
+
         section.main > div.block-container {
             background-color: #ffffff;
             padding: 2rem;

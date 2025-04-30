@@ -354,13 +354,15 @@ elif st.session_state.page == "curriculum":
 
     st.markdown(
         """
+        <right>
         <small>
-        📘 과목 설명<br>
+        📘 <b>과목 설명</b> <br>
         - <b>공통, 기본선택</b>: 모든 학생이 반드시 이수해야 하는 교과목<br>
         - <b>일반선택</b>: 흥미, 적성에 따라 자유롭게 선택할 수 있는 교과목<br>
         - <b>진로선택</b>: 자신의 진로와 관련된 교과목을 선택하여 심화 학습을 할 수 있도록 하는 교과목<br>
         - <b>융합</b>: 교과 간 경계를 허물고 다양한 분야를 결합하여 실생활과 연계된 학습을 지향하는 교과목
         </small>
+        </right>
         """,
         unsafe_allow_html=True
     )

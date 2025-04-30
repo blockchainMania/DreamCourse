@@ -375,7 +375,7 @@ elif st.session_state.page == "curriculum":
     )
 
     st.markdown("---")
-    st.markdown("### 🏫 2025학년도 서울대/연대/고대 수시 입결정보")
+    st.markdown("### 🏫 2024학년도 서울대/연대/고대 수시 입결정보")
 
     # 세 번째 검색용 Prompt
     custom_prompt = get_prompt("admission_table")

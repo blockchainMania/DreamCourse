@@ -357,7 +357,7 @@ elif st.session_state.page == "curriculum":
 
     # 커리큘럼 테이블 출력
     if "curriculum_table" in st.session_state:
-        st.markdown("### 📋 학기별 추천 커리큘럼")
+        st.markdown("### 📅 학기별 추천 커리큘럼")
         st.dataframe(st.session_state.curriculum_table, use_container_width=True)
 
 

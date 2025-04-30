@@ -315,15 +315,10 @@ elif st.session_state.page == "curriculum":
 
 
     # 선택한 학과에 해당하는 코멘트 추출
-    @st.cache_data
-    def load_comment_csv():
-        return pd.read_csv("커리큘럼_수정.csv", encoding="utf-8")
-
-
-    df_comment = load_comment_csv()
+    df_comment = pd.read_csv("커리큘럼_수정.csv", encoding="utf-8")
 
     comment_row = df_comment[(df_comment["학과"] == st.session_state.selected_major) & (df_comment["코멘트"].notna())]
-    comment_text = comment_row.iloc[0]["코멘트"] if not comment_row.empty else None
+    comment_text = comment_row["코멘트"] if not comment_row.empty else None
 
     st.title("📘 맞춤형 커리큘럼 및 입결 정보")
     st.markdown(f"선택한 학과: **{st.session_state.selected_major}**")

@@ -65,7 +65,7 @@ def build_vectorstore():
     vectorstore = FAISS.from_documents(documents, embeddings)
 
     return vectorstore
-
+#123
 # ===============================
 # Streamlit 시작 시 벡터스토어 구축
 # ===============================
